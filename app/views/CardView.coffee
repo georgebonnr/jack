@@ -1,3 +1,4 @@
+#view of model card
 class window.CardView extends Backbone.View
 
   className: 'card'
