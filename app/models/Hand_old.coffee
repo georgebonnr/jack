@@ -6,37 +6,14 @@ class window.Hand extends Backbone.Collection
   initialize: (array, @deck, @isDealer) ->
 
   hit: ->
-    if @playable
-      if @isDealer
-        @dealerHit()
-      else
-        @add(@deck.pop()).last()
-      @bustCheck()
+    @add(@deck.pop()).last()
 
   stand: false
-  playable: true
-  flipped: false
-
-  dealerHit: ->
-    if @maxScore() < 17
-      @add(@deck.pop()).last()
-
-  flip: ->
-    if !@flipped
-      @first().flip()
-      @flipped = true
-
-  playerStand: ->
-    @playable = false
-    @stand = true
-
-  playToWin: ->
-    @flip()
-    while @maxScore() < 17
-      @add(@deck.pop()).last()
-    @bustCheck()
 
   scores: ->
+    # The scores are an array of potential scores.
+    # Usually, that array contains one element. That is the only score.
+    # when there is an ace, it offers you two scores - the original score, and score + 10.
     hasAce = @reduce (memo, card) ->
       memo or card.get('value') is 1
     , false
@@ -50,6 +27,9 @@ class window.Hand extends Backbone.Collection
     else [score]
 
   dealerScore: ->
+    # The scores are an array of potential scores.
+    # Usually, that array contains one element. That is the only score.
+    # when there is an ace, it offers you two scores - the original score, and score + 10.
     hasAce = @reduce (memo, card) ->
       memo or card.get('value') is 1
     , false
@@ -61,14 +41,3 @@ class window.Hand extends Backbone.Collection
       then [score]
       else [score, score + 10]
     else [score]
-
-  maxScore: ->
-    if @isDealer
-      return @dealerScore()[1] || @dealerScore()[0]
-    else
-      return @scores()[1] || @scores()[0]
-
-  bustCheck: ->
-    if @maxScore() > 21
-      @playable = false
-      @trigger 'bust'
