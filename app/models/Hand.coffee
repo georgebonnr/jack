@@ -32,9 +32,16 @@ class window.Hand extends Backbone.Collection
 
   playToWin: ->
     @flip()
-    while @maxScore() < 17
-      @add(@deck.pop()).last()
-    @bustCheck()
+    setTimeout(play = (=>
+      if @maxScore() < 17
+        @add(@deck.pop()).last()
+        setTimeout(play, 1000)
+      else 
+        if @maxScore() > 21 
+          @trigger 'bust' 
+        else @trigger 'check'
+      ), 1000)
+
 
   scores: ->
     hasAce = @reduce (memo, card) ->
@@ -72,3 +79,4 @@ class window.Hand extends Backbone.Collection
     if @maxScore() > 21
       @playable = false
       @trigger 'bust'
+      'bust'

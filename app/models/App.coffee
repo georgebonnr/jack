@@ -9,6 +9,7 @@ class window.App extends Backbone.Model
     @set 'gameOver', undefined, {silent: true}
     @get('playerHand').on 'bust', @playerBust, @
     @get('dealerHand').on 'bust', @dealerBust, @
+    @get('dealerHand').on 'check', @bustCheck, @
 
   playerBust: ->
     @get('dealerHand').flip()
@@ -23,12 +24,10 @@ class window.App extends Backbone.Model
   playerHit: ->
     @get('playerHand').hit()
     @get('dealerHand').hit()
-    #dealer has to hit too
 
   playerStand: ->
     @get('playerHand').playerStand()
     @get('dealerHand').playToWin()
-    @bustCheck()
 
   bustCheck: ->
     playerscore = @get('playerHand').maxScore()

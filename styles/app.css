@@ -14,3 +14,13 @@
 .hand {
   overflow: auto;
 }
+
+.alert {
+  height: 20px;
+  font-weight: 800;
+}
+
+body{
+  padding-left: 100px;
+  padding-top: 20px;
+}
