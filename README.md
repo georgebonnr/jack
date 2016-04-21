@@ -1,3 +1,3 @@
-#blackjack
+#jack
 
-Pair-programmed blackjack game in backbone
+blackjack prototype
